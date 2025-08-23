@@ -31,6 +31,7 @@
                  id="brille24.customer_options_plugin.form.customer_option_type">
             <argument>%brille24.model.customer_option.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
+            <argument type="service" id="Brille24\SyliusCustomerOptionsPlugin\Form\EventSubscriber\GenerateCustomerOptionCodeSubscriber"/>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionType" name="form.type"/>
         </service>
 

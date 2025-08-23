@@ -1,2 +1,9 @@
 imports:
   - { resource: "services/*" }
+
+services:
+  Brille24\SyliusCustomerOptionsPlugin\Form\EventSubscriber\GenerateCustomerOptionCodeSubscriber:
+    arguments:
+      $slugger: '@slugger'
+      $defaultLocale: '%locale%'
+    tags: [ ]

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Form\EventSubscriber\GenerateCustomerOptionCodeSubscriber;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
@@ -23,9 +24,19 @@ use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Sylius\Bundle\ResourceBundle\Form\EventSubscriber\AddCodeFormSubscriber;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
-final class CustomerOptionType extends AbstractResourceType
-{
+final class CustomerOptionType extends AbstractResourceType {
+
+    public function __construct(
+        string $dataClass,
+        array $validationGroups = [],
+        private readonly GenerateCustomerOptionCodeSubscriber $codeSubscriber,
+    ) {
+        parent::__construct($dataClass, $validationGroups);
+    }
+
     /**
      * @inheritdoc
      */
@@ -39,6 +50,7 @@ final class CustomerOptionType extends AbstractResourceType
             ->add('code', TextType::class, [
                 'label' => 'sylius.ui.code',
                 'empty_data' => '',
+                'required' => false,
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'sylius.ui.type',
@@ -66,7 +78,7 @@ final class CustomerOptionType extends AbstractResourceType
             ->add('configuration', CustomerOptionConfigurationType::class, [
                 'label' => false,
             ])
-            ->addEventSubscriber(new AddCodeFormSubscriber())
+            ->addEventSubscriber($this->codeSubscriber)
         ;
 
     }
