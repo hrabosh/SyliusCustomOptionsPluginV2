@@ -2,11 +2,11 @@ sylius_twig_hooks:
   hooks:
     'sylius_admin.customer_option.create.content':
       form:
-        component: 'sylius_admin:product_option:form'
+        component: 'brille24:customer_option:form'
         props:
           resource: '@=_context.resource'
           form: '@=_context.form'
-          template: '@SyliusAdmin/product_option/form.html.twig'
+          template: '@Brille24SyliusCustomerOptionsPlugin/customer_option/form.html.twig'
         priority: 0
 
     'sylius_admin.customer_option.create.content.form':
@@ -29,10 +29,13 @@ sylius_twig_hooks:
       default:
         enabled: false
       code:
-        template: '@SyliusAdmin/product_option/form/sections/general/code.html.twig'
+        template: '@Brille24SyliusCustomerOptionsPlugin/customer_option/form/sections/general/code.html.twig'
         priority: 100
-      position:
-        template: '@SyliusAdmin/product_option/form/sections/general/position.html.twig'
+      type:
+        template: '@Brille24SyliusCustomerOptionsPlugin/customer_option/form/sections/general/type.html.twig'
+        priority: 0
+      required:
+        template: '@Brille24SyliusCustomerOptionsPlugin/customer_option/form/sections/general/required.html.twig'
         priority: 0
 
     'sylius_admin.customer_option.create.content.form.sections.translations':
